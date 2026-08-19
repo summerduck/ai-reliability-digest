@@ -4,6 +4,7 @@ from __future__ import annotations
 import logging
 
 import anthropic
+import pydantic
 
 from .config import (
     RANK_BATCH_SIZE,
@@ -52,7 +53,9 @@ def rank_items(client: anthropic.Anthropic, items: list[Item]) -> list[tuple[Ite
             for ranked in response.parsed_output.rankings:
                 if ranked.index in scores:
                     scores[ranked.index] = (ranked.score, ranked.topic)
-        except anthropic.APIError:
+        # ValidationError: messages.parse raises it when the model's JSON
+        # doesn't match the schema — must degrade, not kill the issue.
+        except (anthropic.APIError, pydantic.ValidationError):
             log.exception("Ranking batch starting at %d failed; items score 0", start)
         for i, item in enumerate(batch):
             score, topic = scores[start + i]

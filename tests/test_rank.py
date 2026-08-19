@@ -47,6 +47,16 @@ def test_failed_batch_scores_zero_and_run_continues(monkeypatch, sample_items):
     assert [score for _, score, _ in results] == [0, 0, 0, 9, 9]
 
 
+def test_schema_validation_failure_scores_zero_and_run_continues(sample_items):
+    try:
+        RankingResponse.model_validate_json('{"rankings": "not a list"}')
+    except Exception as exc:  # noqa: BLE001 — capture the real ValidationError
+        validation_error = exc
+    client = fake_client([validation_error])
+    results = rank.rank_items(client, sample_items)
+    assert [score for _, score, _ in results] == [0] * len(sample_items)
+
+
 def test_out_of_range_index_ignored():
     items = [make_item(0)]
     response = RankingResponse(
