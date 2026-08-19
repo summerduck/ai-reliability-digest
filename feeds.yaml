@@ -1,0 +1,150 @@
+# Curated from https://windflash.us/rss-sources (213-feed catalog) for the
+# AI Reliability & Test Automation Engineer role. All URLs verified to return
+# RSS/Atom XML at curation time (2026-08-19).
+feeds:
+  # --- LLM engineering, evals, testing ---
+  - name: Simon Willison's Weblog
+    url: https://simonwillison.net/atom/everything/
+    category: llm-engineering
+  - name: Lilian Weng's AI Blog
+    url: https://lilianweng.github.io/posts/index.xml
+    category: llm-evals
+  - name: LangChain Blog
+    url: https://blog.langchain.com/rss.xml
+    category: llm-apps-rag
+  - name: Latent Space
+    url: https://www.latent.space/feed
+    category: ai-engineering
+  - name: Hillel Wayne (Computer Things)
+    url: https://buttondown.com/hillelwayne/rss
+    category: software-testing
+  - name: Martin Fowler
+    url: https://martinfowler.com/feed.atom
+    category: engineering-practice
+
+  # --- Model releases & AI labs ---
+  - name: OpenAI News
+    url: https://openai.com/news/rss.xml
+    category: model-releases
+  - name: Anthropic News (mirror)
+    url: https://rsshub.bestblogs.dev/anthropic/news
+    category: model-releases
+  - name: Google DeepMind Blog
+    url: https://deepmind.google/blog/feed/basic/
+    category: model-releases
+  - name: Hugging Face Blog
+    url: https://huggingface.co/blog/feed.xml
+    category: open-source-ai
+  - name: Engineering at Meta
+    url: https://engineering.fb.com/feed/
+    category: infra-engineering
+  - name: Google Research Blog
+    url: https://research.google/blog/rss/
+    category: ai-research
+  - name: Apple Machine Learning Research
+    url: https://machinelearning.apple.com/rss.xml
+    category: asr-tts-ml
+  - name: Microsoft AI Blog
+    url: https://www.microsoft.com/en-us/ai/blog/feed/
+    category: ai-platform
+
+  # --- ML tooling, inference, RAG ---
+  - name: PyTorch Blog
+    url: https://pytorch.org/blog/feed.xml
+    category: ml-tooling
+  - name: NVIDIA Technical Blog
+    url: https://developer.nvidia.com/blog/feed/
+    category: ai-infrastructure
+  - name: Together AI Blog
+    url: https://www.together.ai/blog/rss.xml
+    category: llm-inference
+  - name: Replicate Blog
+    url: https://replicate.com/blog/rss
+    category: model-deployment
+  - name: Qdrant Blog
+    url: https://qdrant.tech/index.xml
+    category: rag-vector-search
+  - name: AWS Machine Learning Blog
+    url: https://aws.amazon.com/blogs/amazon-ai/feed/
+    category: applied-ml
+  - name: Databricks Blog
+    url: https://www.databricks.com/feed
+    category: llm-platform
+
+  # --- Research & industry pulse ---
+  - name: arXiv cs.AI
+    url: https://rss.arxiv.org/rss/cs.AI
+    category: ai-research-papers
+  - name: Berkeley AI Research (BAIR) Blog
+    url: https://bair.berkeley.edu/blog/feed.xml
+    category: ai-research
+  - name: deeplearning.ai The Batch (mirror)
+    url: https://rsshub.bestblogs.dev/deeplearning/the-batch
+    category: ai-industry
+  - name: Last Week in AI
+    url: https://lastweekin.ai/feed/
+    category: ai-industry
+  - name: Turing Post
+    url: https://rss.beehiiv.com/feeds/UJIoBuf5BX.xml
+    category: ai-industry
+  - name: TechCrunch AI
+    url: https://techcrunch.com/category/artificial-intelligence/feed/
+    category: ai-industry
+  - name: MIT Technology Review
+    url: https://www.technologyreview.com/feed/
+    category: ai-industry
+
+  # --- Engineering practice: Python, CI/CD, observability ---
+  - name: minimaxir (Max Woolf)
+    url: https://minimaxir.com/index.xml
+    category: ai-engineering
+  - name: Sean Goedecke
+    url: https://www.seangoedecke.com/rss.xml
+    category: ai-engineering
+  - name: Miguel Grinberg
+    url: https://blog.miguelgrinberg.com/feed
+    category: python-testing
+  - name: Eli Bendersky
+    url: https://eli.thegreenplace.net/feeds/all.atom.xml
+    category: python-systems
+  - name: The GitHub Blog
+    url: https://github.blog/feed/
+    category: ci-cd-tooling
+  - name: Docker Blog
+    url: https://www.docker.com/feed/
+    category: ci-cd-containers
+  - name: Grafana Labs Blog
+    url: https://grafana.com/blog/index.xml
+    category: observability
+  - name: Datadog Engineering
+    url: https://www.datadoghq.com/blog/engineering/index.xml
+    category: observability
+
+  # --- Distributed systems & platform reliability ---
+  - name: Netflix Technology Blog
+    url: https://netflixtechblog.com/feed
+    category: distributed-systems
+  - name: The Cloudflare Blog
+    url: https://blog.cloudflare.com/rss
+    category: distributed-systems
+  - name: Slack Engineering
+    url: https://slack.engineering/feed/
+    category: platform-reliability
+  - name: Discord Blog
+    url: https://discord.com/blog/rss.xml
+    category: realtime-infrastructure
+  - name: Spotify Engineering
+    url: https://engineering.atspotify.com/feed/
+    category: platform-engineering
+  - name: Dropbox Tech
+    url: https://dropbox.tech/feed
+    category: infrastructure-reliability
+  - name: AWS Architecture Blog
+    url: https://aws.amazon.com/blogs/architecture/feed/
+    category: cloud-reliability
+  - name: ByteByteGo Newsletter
+    url: https://blog.bytebytego.com/feed
+    category: system-design
+  - name: The Pragmatic Engineer
+    url: https://newsletter.pragmaticengineer.com/feed
+    category: engineering-industry
