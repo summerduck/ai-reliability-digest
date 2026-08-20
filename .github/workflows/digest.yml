@@ -12,6 +12,9 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: write
+
 jobs:
   digest:
     runs-on: ubuntu-latest
@@ -47,3 +50,13 @@ jobs:
         with:
           name: digest-html
           path: digest.html
+
+      - name: Commit issue to archive
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add archive/
+          git diff --cached --quiet && exit 0
+          git commit -m "archive: issue $(date -u +%F) [skip ci]"
+          git push

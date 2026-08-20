@@ -15,6 +15,7 @@ from pathlib import Path
 import anthropic
 
 from .analyze import analyze
+from .archive import save_issue
 from .config import Settings, load_feeds
 from .fetch import fetch_all
 from .rank import rank_items
@@ -50,6 +51,9 @@ def main(argv: list[str] | None = None) -> int:
     client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from the environment
 
     subject, body = build_digest_html(client)
+
+    issue_path = save_issue(body, datetime.now(UTC).date())
+    log.info("Archived issue at %s", issue_path)
 
     if args.dry_run:
         Path(args.out).write_text(body)
