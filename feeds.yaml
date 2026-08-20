@@ -29,6 +29,12 @@ feeds:
   - name: Anthropic News (mirror)
     url: https://rsshub.bestblogs.dev/anthropic/news
     category: model-releases
+  - name: Claude Blog (mirror)
+    url: https://rsshub.bestblogs.dev/claude/blog
+    category: model-releases
+  - name: Anthropic Engineering (mirror)
+    url: https://rsshub.bestblogs.dev/anthropic/engineering
+    category: ai-engineering
   - name: Google DeepMind Blog
     url: https://deepmind.google/blog/feed/basic/
     category: model-releases
