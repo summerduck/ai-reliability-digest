@@ -24,6 +24,19 @@ def test_index_lists_issues_newest_first_with_titles(tmp_path):
     assert "Agents & RAG" in index
 
 
+def test_pages_index_lists_issues_and_ignores_itself(tmp_path):
+    save_issue(HTML_A, date(2026, 8, 17), archive_dir=tmp_path)
+    save_issue(HTML_B, date(2026, 8, 24), archive_dir=tmp_path)
+    index = (tmp_path / "index.html").read_text()
+    assert '<a href="2026-08-17.html">Evals week</a>' in index
+    assert "Agents &amp; RAG" in index
+    assert index.index("2026-08-24") < index.index("2026-08-17")
+    # A rerun must not list index.html as an issue.
+    save_issue(HTML_A, date(2026, 8, 17), archive_dir=tmp_path)
+    assert "index.html" not in (tmp_path / "README.md").read_text()
+    assert 'href="index.html"' not in (tmp_path / "index.html").read_text()
+
+
 def test_rerun_same_date_overwrites_without_duplicate_index_entry(tmp_path):
     save_issue(HTML_A, date(2026, 8, 17), archive_dir=tmp_path)
     save_issue(HTML_B, date(2026, 8, 17), archive_dir=tmp_path)
