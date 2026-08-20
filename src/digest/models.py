@@ -40,6 +40,7 @@ class TopStory(BaseModel):
     source: str
     summary: str
     why_it_matters: str
+    reading_minutes: int = Field(ge=1, le=120)
 
 
 class QuickHit(BaseModel):

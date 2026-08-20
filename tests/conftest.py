@@ -40,6 +40,7 @@ def sample_digest() -> Digest:
                 source="Test Feed",
                 summary="A new eval framework for conversational agents was released.",
                 why_it_matters="Directly applicable to regression-testing LLM workflows.",
+                reading_minutes=6,
             )
         ],
         quick_hits=[

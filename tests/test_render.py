@@ -17,6 +17,7 @@ def test_all_sections_rendered(sample_digest):
     assert "Trends this week" in html
     assert "For your career" in html
     assert "https://example.com/article-0" in html
+    assert "6 min read" in html
 
 
 def test_failed_feeds_listed_in_footer(sample_digest):
@@ -41,6 +42,7 @@ def test_html_in_content_is_escaped(sample_digest):
             source="Feed <b>",
             summary="a & b",
             why_it_matters="safe",
+            reading_minutes=3,
         )
     )
     html = render_html(sample_digest, [], ISSUE_DATE)

@@ -26,7 +26,9 @@ From the articles provided, produce the weekly digest:
 - overview: 2-3 sentences on the week as a whole
 - top_stories: the 3-6 most important items. Each summary is 2-3 factual sentences;
   why_it_matters is 1-2 sentences tying the story to the reader's work in AI reliability
-  and test automation (be concrete: what to try, watch, or mention in an interview)
+  and test automation (be concrete: what to try, watch, or mention in an interview);
+  reading_minutes is your estimate of how long the full linked article takes to read
+  (typical blog post 4-8, long technical deep-dive 10-20, research paper 30+)
 - quick_hits: 4-10 remaining worthwhile items, one line each
 - trends: 1-3 patterns visible across multiple items this week, with the evidence
 - career_implications: 2-4 actionable takeaways (skills to practice, tools to look at,

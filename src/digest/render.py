@@ -45,7 +45,8 @@ def render_html(digest: Digest, failed_feeds: list[str], issue_date: date) -> st
                 f'<div style="{_STYLE_CARD}">'
                 f'<a href="{_e(story.link)}" style="{_STYLE_LINK}font-weight:600;font-size:16px;">'
                 f"{_e(story.title)}</a>"
-                f'<span style="{_STYLE_MUTED}"> · {_e(story.source)}</span>'
+                f'<span style="{_STYLE_MUTED}"> · {_e(story.source)} · '
+                f"{story.reading_minutes} min read</span>"
                 f'<p style="margin:8px 0 6px;">{_e(story.summary)}</p>'
                 f'<p style="margin:0;color:#3d5a3d;"><strong>Why it matters:</strong> '
                 f"{_e(story.why_it_matters)}</p></div>"
