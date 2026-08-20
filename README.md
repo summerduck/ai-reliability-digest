@@ -1,5 +1,7 @@
 # AI Reliability Weekly
 
+**Issue archive:** <https://summerduck.github.io/ai-reliability-digest/>
+
 Personal weekly news digest for the **AI Reliability & Test Automation Engineer** field.
 Every Monday morning a GitHub Actions job pulls ~45 curated RSS feeds, has Claude rank every
 article against the target role profile, writes an analyst-style briefing (top stories, quick
