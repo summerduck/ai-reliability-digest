@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # to dispatch pages.yml after the archive commit
 
 jobs:
   digest:
@@ -53,6 +54,8 @@ jobs:
 
       - name: Commit issue to archive
         if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -60,3 +63,6 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m "archive: issue $(date -u +%F)"
           git push
+          # GITHUB_TOKEN pushes don't fire push-triggered workflows,
+          # so dispatch the Pages deploy explicitly.
+          gh workflow run pages.yml
