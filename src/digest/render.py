@@ -1,12 +1,16 @@
 """Render a Digest into an HTML email body.
 
-Design language: editorial warm monochrome with a single locked accent.
-- Ink #111113 on warm off-white #FBFBFA; secondary #6E6E76; never pure black/white.
-- One accent (emerald #1A7A54) carries links, the why-it-matters label, and state.
-- No cards or shadows: sections and stories separate on 1px #E9E8E4 hairlines.
-- Meta text (masthead, section labels, story numbers, reading time) is small
-  tracked-caps monospace; headlines are large tight-tracked sans.
+Design language: anthropic.com editorial — warm paper, serif body, bold sans display.
+- Ink #141413 on ivory #FAF9F5 (both sampled from anthropic.com); never pure black/white.
+- Body copy is a Tiempos-style serif (Georgia fallback); headlines are large,
+  heavy, tight-tracked sans (Styrene fallback stack).
+- One accent, olive #788C5D (their artwork green), carries the why-it-matters
+  label, trend bars, and state; #5C6F45 is its darker text-safe shade.
+- No cards or shadows: sections and stories separate on 1px #E8E6DC hairlines.
+- Meta text (section labels, story numbers, reading time) stays small
+  tracked-caps monospace.
 Email-safe: inline styles only, system font stacks, no images or scripts.
+Sized to read well full-page on an iPad too: 680px measure, 18px serif body.
 """
 from __future__ import annotations
 
@@ -15,21 +19,23 @@ from datetime import date
 
 from .models import Digest
 
-_SANS = "-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif"
+_SANS = "'Styrene A',-apple-system,'Helvetica Neue','Segoe UI',Roboto,Arial,sans-serif"
+_SERIF = "'Tiempos Text','Iowan Old Style',Georgia,'Times New Roman',serif"
 _MONO = "'SF Mono',SFMono-Regular,'Roboto Mono',Consolas,monospace"
 
-_INK = "#111113"
-_BODY_TEXT = "#37373D"
-_MUTED = "#6E6E76"
-_FAINT = "#9A9AA1"
-_PAPER = "#FBFBFA"
-_HAIRLINE = "#E9E8E4"
-_ACCENT = "#1A7A54"
-_ACCENT_WASH = "#EDF3EC"
+_INK = "#141413"
+_BODY_TEXT = "#141413"
+_MUTED = "#6F6E69"
+_FAINT = "#95948E"
+_PAPER = "#FAF9F5"
+_HAIRLINE = "#E8E6DC"
+_ACCENT = "#788C5D"
+_ACCENT_TEXT = "#5C6F45"
+_ACCENT_WASH = "#EDEFE3"
 
 _STYLE_BODY = (
-    f"margin:0 auto;max-width:640px;padding:40px 20px 32px;background:{_PAPER};"
-    f"font-family:{_SANS};color:{_BODY_TEXT};line-height:1.65;"
+    f"margin:0 auto;max-width:680px;padding:48px 24px 36px;background:{_PAPER};"
+    f"font-family:{_SERIF};color:{_BODY_TEXT};font-size:18px;line-height:1.7;"
 )
 _STYLE_EYEBROW = (
     f"font-family:{_MONO};font-size:11px;font-weight:500;letter-spacing:0.18em;"
@@ -48,7 +54,7 @@ def _e(text: str) -> str:
 def _tag(text: str) -> str:
     return (
         f'<span style="font-family:{_MONO};font-size:10px;font-weight:500;'
-        f"letter-spacing:0.1em;text-transform:uppercase;color:{_ACCENT};"
+        f"letter-spacing:0.1em;text-transform:uppercase;color:{_ACCENT_TEXT};"
         f'background:{_ACCENT_WASH};border-radius:999px;padding:3px 10px;">{_e(text)}</span>'
     )
 
@@ -61,7 +67,8 @@ def render_html(digest: Digest, failed_feeds: list[str], issue_date: date) -> st
     quiet_badge = f" &nbsp;{_tag('quiet week')}" if digest.quiet_week else ""
     parts.append(
         '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
-        f'<tr><td style="{_STYLE_EYEBROW}color:{_INK};">AI Reliability Weekly{quiet_badge}</td>'
+        f'<tr><td style="font-family:{_SANS};font-size:15px;font-weight:700;'
+        f'letter-spacing:-0.01em;color:{_INK};">AI Reliability Weekly{quiet_badge}</td>'
         f'<td align="right" style="{_STYLE_META}">{issue_date.strftime("%b %d, %Y")}</td>'
         "</tr></table>"
         f'<hr style="{_STYLE_RULE}margin-top:12px;">'
@@ -69,12 +76,12 @@ def render_html(digest: Digest, failed_feeds: list[str], issue_date: date) -> st
 
     # Headline + overview
     parts.append(
-        f'<h1 style="font-family:{_SANS};font-size:30px;font-weight:700;'
-        f"letter-spacing:-0.02em;line-height:1.15;color:{_INK};"
-        f'margin:28px 0 14px;">{_e(digest.headline)}</h1>'
+        f'<h1 style="font-family:{_SANS};font-size:40px;font-weight:700;'
+        f"letter-spacing:-0.025em;line-height:1.1;color:{_INK};"
+        f'margin:36px 0 18px;">{_e(digest.headline)}</h1>'
     )
     parts.append(
-        f'<p style="font-size:17px;line-height:1.6;color:{_BODY_TEXT};margin:0 0 8px;">'
+        f'<p style="font-size:21px;line-height:1.5;color:{_BODY_TEXT};margin:0 0 8px;">'
         f"{_e(digest.overview)}</p>"
     )
 
@@ -87,11 +94,13 @@ def render_html(digest: Digest, failed_feeds: list[str], issue_date: date) -> st
                 '<div style="padding:24px 0 4px;">'
                 f'<p style="{_STYLE_META}margin:0 0 6px;">'
                 f"{i:02d} &middot; {_e(story.source)} &middot; {story.reading_minutes} min read</p>"
-                f'<a href="{_e(story.link)}" style="{_STYLE_LINK}font-weight:600;'
-                f'font-size:19px;letter-spacing:-0.01em;line-height:1.3;">{_e(story.title)}</a>'
+                f'<a href="{_e(story.link)}" style="{_STYLE_LINK}font-family:{_SANS};'
+                f"font-weight:700;font-size:22px;letter-spacing:-0.015em;"
+                f'line-height:1.25;">{_e(story.title)}</a>'
                 f'<p style="margin:10px 0 10px;color:{_BODY_TEXT};">{_e(story.summary)}</p>'
                 f'<p style="margin:0 0 4px;">'
-                f'<span style="{_STYLE_EYEBROW}font-size:10px;color:{_ACCENT};">Why it matters</span>'
+                f'<span style="{_STYLE_EYEBROW}font-size:10px;color:{_ACCENT_TEXT};">'
+                "Why it matters</span>"
                 f'<br>{_e(story.why_it_matters)}</p>'
                 "</div>"
             )
@@ -101,7 +110,8 @@ def render_html(digest: Digest, failed_feeds: list[str], issue_date: date) -> st
         for hit in digest.quick_hits:
             parts.append(
                 f'<div style="border-top:1px solid {_HAIRLINE};padding:12px 0;">'
-                f'<a href="{_e(hit.link)}" style="{_STYLE_LINK}font-weight:600;">{_e(hit.title)}</a>'
+                f'<a href="{_e(hit.link)}" style="{_STYLE_LINK}font-family:{_SANS};'
+                f'font-weight:600;font-size:17px;">{_e(hit.title)}</a>'
                 f'<span style="{_STYLE_META}"> &middot; {_e(hit.source)}</span><br>'
                 f'<span style="color:{_MUTED};">{_e(hit.one_liner)}</span></div>'
             )
