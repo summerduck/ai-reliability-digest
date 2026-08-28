@@ -2,7 +2,12 @@
 from __future__ import annotations
 
 import anthropic
-import httpx
+
+try:  # anthropic >= 1.0 builds its exceptions on the httpx2 fork
+    import httpx2 as httpx
+except ModuleNotFoundError:  # older anthropic pulls in classic httpx
+    import httpx
+
 from conftest import fake_client, full_ranking, make_item
 
 from digest import rank

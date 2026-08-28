@@ -2,11 +2,11 @@
 from __future__ import annotations
 
 import time
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from conftest import NOW, fake_client, full_ranking
+from conftest import fake_client, full_ranking
 
 from digest.main import build_digest_html
 
@@ -17,7 +17,9 @@ def _entry(i):
         link=f"https://news.example.com/{i}",
         summary=f"<p>Details of story {i} about evals.</p>",
     )
-    e.published_parsed = time.gmtime((NOW - timedelta(days=1)).timestamp())
+    # Relative to the real clock: build_digest_html filters against now(),
+    # so a pinned date would silently age out of the fetch window.
+    e.published_parsed = time.gmtime((datetime.now(UTC) - timedelta(days=1)).timestamp())
     return e
 
 
