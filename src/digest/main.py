@@ -15,7 +15,7 @@ from pathlib import Path
 import anthropic
 
 from .analyze import analyze
-from .archive import save_issue
+from .archive import normalize_link, published_links, save_issue
 from .config import Settings, load_feeds
 from .fetch import fetch_all
 from .rank import rank_items
@@ -32,7 +32,13 @@ def build_digest_html(client: anthropic.Anthropic) -> tuple[str, str]:
     report = fetch_all(feeds)
     log.info("Fetched %d items; %d feeds failed", len(report.items), len(report.failed_feeds))
 
-    ranked = rank_items(client, report.items)
+    # The 7-day window can't catch feeds that serve undated items, which stay
+    # eligible forever; past issues are the record of what's already been sent.
+    already_sent = published_links()
+    fresh = [item for item in report.items if normalize_link(item.link) not in already_sent]
+    log.info("Dropped %d items already covered by a past issue", len(report.items) - len(fresh))
+
+    ranked = rank_items(client, fresh)
     digest = analyze(client, ranked)
 
     today = datetime.now(UTC).date()

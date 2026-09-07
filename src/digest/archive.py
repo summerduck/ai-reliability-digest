@@ -7,17 +7,29 @@ with a viewport meta so they read well in a tablet/phone browser, not at the
 Two indexes are maintained: README.md for browsing the folder on GitHub,
 and index.html — the GitHub Pages front page, styled to match the email
 (anthropic.com palette: ivory paper, ink, one olive accent).
+
+The archive is also the run-to-run memory of what has already been sent:
+`published_links` reads back every article a past issue linked to, so the
+pipeline can drop repeats. The 7-day fetch window alone can't do that job —
+a feed that serves items without a usable date (RSSHub's Anthropic
+Engineering mirror, for one) keeps them eligible forever, and consecutive
+issues then lead with the same stories.
 """
 from __future__ import annotations
 
 import html
 import re
+import urllib.parse
 from datetime import date
 from pathlib import Path
 
 ARCHIVE_DIR = Path(__file__).resolve().parents[2] / "archive"
 
 _TITLE_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.DOTALL)
+_HREF_RE = re.compile(r'<a[^>]+href="([^"]+)"', re.IGNORECASE)
+
+# Query parameters that identify the campaign, not the article.
+_TRACKING_PARAMS = frozenset({"ref", "ref_src", "source", "fbclid", "gclid", "mc_cid", "mc_eid"})
 
 _SANS = "'Styrene A',-apple-system,'Helvetica Neue','Segoe UI',Roboto,Arial,sans-serif"
 _SERIF = "'Tiempos Text','Iowan Old Style',Georgia,'Times New Roman',serif"
@@ -79,6 +91,42 @@ curated from ~45 engineering feeds.</p>
 def _issue_title(html_body: str) -> str:
     match = _TITLE_RE.search(html_body)
     return html.unescape(match.group(1)).strip() if match else "Weekly digest"
+
+
+def normalize_link(url: str) -> str:
+    """Comparison key for an article URL, or "" if it isn't an absolute link.
+
+    Feeds and mirrors reformat the same article link — http vs https, a www.
+    prefix, a trailing slash, campaign parameters bolted on — and a plain
+    string compare would read every variant as a new story.
+    """
+    parsed = urllib.parse.urlsplit(url.strip())
+    if not parsed.netloc:
+        return ""
+    host = parsed.netloc.lower().removeprefix("www.")
+    path = parsed.path.rstrip("/")
+    kept = [
+        (key, value)
+        for key, value in urllib.parse.parse_qsl(parsed.query)
+        if not key.lower().startswith("utm_") and key.lower() not in _TRACKING_PARAMS
+    ]
+    query = urllib.parse.urlencode(kept)
+    return f"{host}{path}?{query}" if query else f"{host}{path}"
+
+
+def published_links(archive_dir: Path | None = None) -> set[str]:
+    """Normalized links of every article a past issue already linked to."""
+    directory = archive_dir or ARCHIVE_DIR
+    if not directory.is_dir():
+        return set()
+    links: set[str] = set()
+    for path in directory.glob("*.html"):
+        if path.name == "index.html":  # links to issues, not to articles
+            continue
+        for href in _HREF_RE.findall(path.read_text()):
+            if key := normalize_link(html.unescape(href)):
+                links.add(key)
+    return links
 
 
 def save_issue(html_body: str, issue_date: date, archive_dir: Path | None = None) -> Path:

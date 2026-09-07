@@ -10,7 +10,8 @@ hits, weekly trends, career implications), and emails it via Gmail.
 ## How it works
 
 ```
-feeds.yaml ──▶ fetch (feedparser, 7-day window, failures collected)
+feeds.yaml ──▶ fetch   (feedparser, 7-day window, failures collected)
+           ──▶ dedup   (drop anything a past issue already linked to)
            ──▶ rank    (claude-haiku-4-5, batched, 0–10 relevance scores)
            ──▶ analyze (claude-sonnet-5, structured output → Digest)
            ──▶ render  (HTML email)
@@ -19,6 +20,11 @@ feeds.yaml ──▶ fetch (feedparser, 7-day window, failures collected)
 
 - A broken feed never kills the issue — it's listed at the bottom of the email.
 - A quiet week still sends a (short) email, marked "quiet week".
+- `archive/` doubles as the memory of what's already been sent. The 7-day window
+  can't stand alone: a feed that serves items without a usable date (RSSHub's
+  Anthropic mirrors, for one) keeps them eligible forever, and consecutive issues
+  end up leading with the same stories. Links are compared normalized, so a feed
+  re-serving the same article with `?utm_source=…` doesn't read as new.
 - Cost: roughly $0.5–0.8 per issue.
 
 ## One-time setup
