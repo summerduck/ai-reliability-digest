@@ -9,10 +9,15 @@ HTML_A = '<div><h1 style="x">Evals week</h1><p>body</p></div>'
 HTML_B = "<div><h1>Agents &amp; RAG</h1><p>body</p></div>"
 
 
-def test_issue_written_under_date_name(tmp_path):
+def test_issue_written_as_full_document(tmp_path):
     path = save_issue(HTML_A, date(2026, 8, 17), archive_dir=tmp_path)
     assert path == tmp_path / "2026-08-17.html"
-    assert path.read_text() == HTML_A
+    saved = path.read_text()
+    assert HTML_A in saved  # the email body, verbatim
+    # Wrapped in a real document so tablet/phone browsers don't legacy-zoom it.
+    assert saved.startswith("<!doctype html>")
+    assert 'name="viewport"' in saved
+    assert "<title>Evals week — AI Reliability Weekly</title>" in saved
 
 
 def test_index_lists_issues_newest_first_with_titles(tmp_path):
@@ -42,4 +47,6 @@ def test_rerun_same_date_overwrites_without_duplicate_index_entry(tmp_path):
     save_issue(HTML_B, date(2026, 8, 17), archive_dir=tmp_path)
     index = (tmp_path / "README.md").read_text()
     assert index.count("- [2026-08-17") == 1
-    assert (tmp_path / "2026-08-17.html").read_text() == HTML_B
+    saved = (tmp_path / "2026-08-17.html").read_text()
+    assert HTML_B in saved
+    assert HTML_A not in saved
