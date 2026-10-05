@@ -1,5 +1,6 @@
 # Digest archive
 
+- [2026-10-05 — Agent Harnesses and LLM Judges Get Stress-Tested as the Frontier Model Race Accelerates](2026-10-05.html)
 - [2026-09-28 — Eval infrastructure eats the world: every major AI vendor ships testing, judging, and red-teaming tools for agents and voice systems](2026-09-28.html)
 - [2026-09-21 — Production Evals Grow Up: From One-Off Benchmarks to Continuous, Judge-Aware Testing](2026-09-21.html)
 - [2026-09-14 — The Eval Validity Crisis Goes Mainstream: Why Your Benchmark Score Might Be Lying to You](2026-09-14.html)
