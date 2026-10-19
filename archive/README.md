@@ -1,5 +1,6 @@
 # Digest archive
 
+- [2026-10-19 — The Week Agent Reliability Became an Engineering Discipline: Evals, Harnesses, and Judge Monitoring Everywhere](2026-10-19.html)
 - [2026-10-12 — The Eval Crisis: This Week's Research Shows LLM Benchmarks Are Quietly Lying to Us](2026-10-12.html)
 - [2026-10-05 — Agent Harnesses and LLM Judges Get Stress-Tested as the Frontier Model Race Accelerates](2026-10-05.html)
 - [2026-09-28 — Eval infrastructure eats the world: every major AI vendor ships testing, judging, and red-teaming tools for agents and voice systems](2026-09-28.html)
