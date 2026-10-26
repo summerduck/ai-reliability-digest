@@ -1,5 +1,6 @@
 # Digest archive
 
+- [2026-10-26 — Agent reliability becomes its own research discipline: harnesses, not just models, are now the thing being benchmarked](2026-10-26.html)
 - [2026-10-19 — The Week Agent Reliability Became an Engineering Discipline: Evals, Harnesses, and Judge Monitoring Everywhere](2026-10-19.html)
 - [2026-10-12 — The Eval Crisis: This Week's Research Shows LLM Benchmarks Are Quietly Lying to Us](2026-10-12.html)
 - [2026-10-05 — Agent Harnesses and LLM Judges Get Stress-Tested as the Frontier Model Race Accelerates](2026-10-05.html)
